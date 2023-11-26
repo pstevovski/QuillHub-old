@@ -28,3 +28,13 @@ export const AuthRegisterSchema = z
   });
 
 export type AuthRegisterFormFields = z.infer<typeof AuthRegisterSchema>;
+
+export const AuthForgotPasswordSchema = z.object({
+  email: z
+    .string({ required_error: "Please enter your email address" })
+    .email({ message: "Please enter a valid email address" }),
+});
+
+export type AuthForgotPasswordFormFields = z.infer<
+  typeof AuthForgotPasswordSchema
+>;
