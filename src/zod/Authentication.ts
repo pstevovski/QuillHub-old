@@ -38,3 +38,18 @@ export const AuthForgotPasswordSchema = z.object({
 export type AuthForgotPasswordFormFields = z.infer<
   typeof AuthForgotPasswordSchema
 >;
+
+export const AuthResetPasswordSchema = z
+  .object({
+    token: z.string({ required_error: "Missing reset password token!" }).min(1),
+    password: z.string().min(1, "Please enter your new password"),
+    confirm_password: z.string().min(1, "Please confirm your new password"),
+  })
+  .refine((data) => data.password === data.confirm_password, {
+    message: "Passwords do not match!",
+    path: ["confirm_password"],
+  });
+
+export type AuthResetPasswordFormFields = z.infer<
+  typeof AuthResetPasswordSchema
+>;
