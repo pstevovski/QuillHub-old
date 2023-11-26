@@ -65,7 +65,7 @@ function RegisterForm() {
         type="submit"
         className="w-full p-2 rounded mt-4 mb-4 bg-blue-500 text-white hover:bg-blue-600 duration-200"
       >
-        {isSubmitting ? "Signing In..." : "Sign In"}
+        {isSubmitting ? "Creating Account..." : "Create Account"}
       </button>
 
       <div className="flex justify-center content-center">
