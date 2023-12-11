@@ -8,6 +8,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 function RegisterForm() {
   const {
@@ -19,11 +20,25 @@ function RegisterForm() {
     resolver: zodResolver(AuthRegisterSchema),
   });
 
-  const handleRegister = async ({
-    email,
-    password,
-  }: AuthRegisterFormFields) => {
-    console.log(email, password);
+  const handleRegister = async (user: AuthRegisterFormFields) => {
+    try {
+      // @ts-ignore Testing
+      delete user.confirm_password;
+      const res = await fetch("http://localhost:3000/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.error);
+
+      toast.success(data.message);
+    } catch (error: any) {
+      toast.error(error.message);
+    }
   };
 
   return (

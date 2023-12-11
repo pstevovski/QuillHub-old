@@ -5,6 +5,7 @@ import { AuthSignInFormFields, AuthSignInSchema } from "@/zod/Authentication";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 function SignInForm() {
   const {
@@ -17,7 +18,24 @@ function SignInForm() {
   });
 
   const handleSignIn = async ({ email, password }: AuthSignInFormFields) => {
-    console.log(email, password);
+    try {
+      // todo: do a general usage handler function
+      const res = await fetch("http://localhost:3000/api/auth/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await res.json();
+
+      // Rethrow the received error message
+      if (!res.ok) throw new Error(data.error);
+
+      toast.success(data.message);
+    } catch (error: any) {
+      toast.error(error.message);
+    }
   };
 
   return (
