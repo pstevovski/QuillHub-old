@@ -12,7 +12,7 @@ export async function POST(request: Request) {
   } catch (error: any) {
     // todo: extract this in a constant?
     if (error.message.toLowerCase().includes("invalid credentials")) {
-      return NextResponse.json({ error: error.message }, { status: 405 });
+      return NextResponse.json({ error: error.message }, { status: 404 });
     } else {
       return NextResponse.json({ error: "Server Error!" }, { status: 500 });
     }
